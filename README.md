@@ -14,7 +14,7 @@ _You can checkout the game over [here](https://connect-4-min-max.netlify.app/)_
 -   Adjacent means
     1. there can be 4 piece in a row next to each other
     2. there can be 4 piece in a column below each other or
-    3. there can be 4 piece digaonaly
+    3. there can be 4 piece digaonally
 
 ## ALGORITHM
 
