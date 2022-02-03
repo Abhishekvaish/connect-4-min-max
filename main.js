@@ -15,19 +15,22 @@ function undo() {
 	// undo computers move
 	let h = HISTORY.pop()
 	Board.grid[h.i][h.j] = -1
+	Board.colFilledIndex[h.j]--
 	grid.children[COL_COUNT * h.i + h.j].style.backgroundColor = "white"
 	// undo players move
 	h = HISTORY.pop()
 	Board.grid[h.i][h.j] = -1
+	Board.colFilledIndex[h.j]--
 	grid.children[COL_COUNT * h.i + h.j].style.backgroundColor = "white"
 }
 
 function reset(e) {
 	ROW_COUNT = parseInt(e.parentNode.querySelector("input[name='rows']").value)
 	COL_COUNT = parseInt(e.parentNode.querySelector("input[name='columns']").value)
-	turn = true
+	turn = Math.random() > 0.5
 	intializeGrid()
 	initializeHoverPiece()
+	if (!turn) updateGrid(ROW_COUNT - 1, parseInt(Math.random() * COL_COUNT), 0)
 }
 
 function updateGrid(i, j, color) {
@@ -158,7 +161,7 @@ function score(x) {
 		return points[count]
 	}
 	let total = 0
-	const points = [0, 1, 2, 5, 10]
+	const points = [0, 1, 2, 25, 100]
 
 	for (let i = 0; i < ROW_COUNT; ++i) {
 		for (let j = 0; j < COL_COUNT; j++) {
@@ -177,7 +180,12 @@ function score(x) {
 // computer(0) maximize , player(1) minimize
 
 function alphabeta(alpha, beta, maximize, depth) {
-	if (depth > 3) return score(0) - score(1)
+	let s = isGameOver()
+	if (s == 1) return -200
+	else if (s == 0) return 200
+
+	if (depth >= 5) return score(0) - score(1)
+
 	if (maximize) {
 		let maxVal = -Infinity
 		for (let j = 0; j < COL_COUNT; j++) {
