@@ -1,8 +1,8 @@
 const grid = document.querySelector(".grid")
 const hiddenGrid = document.querySelector(".hidden-grid")
 const dialogBox = document.querySelector(".dialog-box")
-let ROW_COUNT = 7
-let COL_COUNT = 12
+let ROW_COUNT = Math.min(parseInt(window.screen.height / 64), 7)
+let COL_COUNT = Math.min(parseInt((0.9 * window.screen.width) / 64), 12)
 let colHoverIndex = null
 let turn = true
 let coordinates = []
@@ -297,6 +297,8 @@ function initializeHoverPiece() {
 }
 
 function main() {
+	document.querySelector("input[name='rows']").value = ROW_COUNT
+	document.querySelector("input[name='columns']").value = COL_COUNT
 	// create grid UI
 	intializeGrid()
 	// show hidden pieces on hover
